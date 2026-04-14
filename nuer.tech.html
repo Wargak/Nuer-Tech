@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nuer Tech · buy & sell computers</title>
+  <!-- Poppins font + fallback -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #0b1120;
+      color: #e2e8f0;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* smooth gradient animation on body */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 30% 30%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.08) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+      animation: softPulse 16s infinite alternate;
+    }
+
+    @keyframes softPulse {
+      0% { opacity: 0.4; }
+      100% { opacity: 0.9; }
+    }
+
+    /* container */
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 30px;
+    }
+
+    /* header */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      flex-wrap: wrap;
+      gap: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #a78bfa, #38bdf8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+    }
+    .logo i {
+      font-size: 2rem;
+      color: #38bdf8;
+      margin-right: 6px;
+      background: none;
+      -webkit-background-clip: unset;
+      background-clip: unset;
+      color: #38bdf8;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      font-weight: 500;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: 0.2s;
+      font-size: 1.1rem;
+      position: relative;
+    }
+    .nav-links a:hover {
+      color: white;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: linear-gradient(90deg, #a78bfa, #38bdf8);
+      transition: 0.25s;
+    }
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .cart-icon {
+      background: #1e293b;
+      padding: 10px 16px;
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #334155;
+      transition: 0.2s;
+      cursor: default;
+    }
+    .cart-icon i {
+      color: #38bdf8;
+      font-size: 1.2rem;
+    }
+    #cart-count {
+      background: #38bdf8;
+      color: #0b1120;
+      font-weight: 600;
+      padding: 2px 10px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+    }
+
+    /* hero */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      margin: 60px 0 80px;
+      gap: 40px;
+    }
+    .hero-content {
+      flex: 1 1 350px;
+    }
+    .hero-badge {
+      background: rgba(56, 189, 248, 0.15);
+      display: inline-block;
+      padding: 6px 18px;
+      border-radius: 40px;
+      border: 1px solid #38bdf8;
+      font-weight: 400;
+      margin-bottom: 24px;
+      backdrop-filter: blur(4px);
+      animation: glowPulse 3s infinite;
+    }
+    @keyframes glowPulse {
+      0% { box-shadow: 0 0 0px #38bdf8; }
+      50% { box-shadow: 0 0 12px #38bdf8; }
+      100% { box-shadow: 0 0 0px #38bdf8; }
+    }
+    .hero h1 {
+      font-size: clamp(2.4rem, 7vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      background: linear-gradient(to right, #f0f9ff, #bae6fd, #a5f3fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      color: #94a3b8;
+      max-width: 550px;
+      margin-bottom: 30px;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 14px 38px;
+      border-radius: 50px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 1rem;
+      background: #1e293b;
+      color: white;
+      border: 1px solid #334155;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary {
+      background: linear-gradient(145deg, #2563eb, #38bdf8);
+      border: none;
+      box-shadow: 0 10px 20px -8px #2563eb80;
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 25px -8px #38bdf8;
+    }
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+    .hero-image {
+      width: 100px;
+      height: auto;
+      flex: 1 1 350px;
+      display: flex;
+      justify-content: center;
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0px); }
+    }
+    .hero-image i {
+      font-size: 18rem;
+      color: #1e293b;
+      text-shadow: 0 20px 30px #00000060;
+      background: linear-gradient(145deg, #2563eb20, #a78bfa20);
+      border-radius: 60% 40% 30% 70% / 50% 40% 60% 50%;
+      padding: 0.2em;
+    }
+
+    /* filter bar */
+    .filter-bar {
+      margin: 40px 0 30px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 15px;
+    }
+    .filter-title {
+      font-weight: 500;
+      color: #94a3b8;
+      margin-right: 8px;
+    }
+    .filter-chip {
+      background: #1e293b;
+      padding: 8px 22px;
+      border-radius: 40px;
+      font-weight: 500;
+      border: 1px solid #334155;
+      cursor: pointer;
+      transition: 0.2s;
+      user-select: none;
+    }
+    .filter-chip.active {
+      background: #38bdf8;
+      border-color: #38bdf8;
+      color: #0b1120;
+      font-weight: 600;
+      box-shadow: 0 0 15px #38bdf8;
+    }
+    .filter-chip:hover {
+      border-color: #38bdf8;
+      transform: scale(1.02);
+    }
+
+    /* product grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin: 40px 0 60px;
+    }
+    .product-card {
+      background: #1e293b;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid #334155;
+      backdrop-filter: blur(2px);
+      transition: all 0.25s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+      animation: cardFadeIn 0.5s ease backwards;
+      box-shadow: 0 20px 25px -12px #02061780;
+    }
+    .product-card:hover {
+      transform: translateY(-10px) scale(1.01);
+      border-color: #38bdf8;
+      box-shadow: 0 30px 35px -12px #38bdf880, 0 0 0 1px #38bdf8 inset;
+    }
+    @keyframes cardFadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .card-img {
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+      background: #0f172a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid #334155;
+    }
+    .card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: 0.3s;
+      display: block;
+    }
+    .product-card:hover .card-img img {
+      transform: scale(1.06);
+    }
+    .card-content {
+      padding: 22px 20px 24px;
+    }
+    .card-title {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .card-title span:last-child {
+      color: #bae6fd;
+      font-weight: 700;
+    }
+    .card-desc {
+      color: #94a3b8;
+      font-size: 0.95rem;
+      margin: 12px 0 16px;
+      display: flex;
+      gap: 15px;
+    }
+    .card-desc i {
+      color: #38bdf8;
+      width: 20px;
+    }
+    .card-actions {
+      display: flex;
+      gap: 12px;
+    }
+    .btn-card {
+      flex: 1;
+      padding: 10px;
+      border-radius: 50px;
+      background: transparent;
+      border: 1px solid #334155;
+      color: white;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-card:hover {
+      background: #38bdf8;
+      border-color: #38bdf8;
+      color: #0b1120;
+    }
+    .btn-card i {
+      font-size: 1rem;
+    }
+
+    /* sell section */
+    .sell-section {
+      background: linear-gradient(145deg, #1e293b, #172032);
+      border-radius: 50px;
+      padding: 50px 40px;
+      margin: 80px 0;
+      border: 1px solid #334155;
+      box-shadow: 0 25px 40px -20px black;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      align-items: center;
+    }
+    .sell-info {
+      flex: 1 1 280px;
+    }
+    .sell-info h2 {
+      font-size: 2.4rem;
+      font-weight: 600;
+      background: linear-gradient(145deg, #bae6fd, #a78bfa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .sell-info p {
+      color: #94a3b8;
+      margin: 20px 0;
+    }
+    .sell-form {
+      flex: 1 1 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group label i {
+      color: #38bdf8;
+      width: 24px;
+    }
+    .sell-form input, .sell-form select {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 40px;
+      padding: 14px 22px;
+      color: white;
+      font-size: 1rem;
+      transition: 0.2s;
+    }
+    .sell-form input:focus, .sell-form select:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 10px #38bdf8;
+    }
+    .sell-form button {
+      background: linear-gradient(145deg, #a78bfa, #2563eb);
+      border: none;
+      padding: 16px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: white;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.2s;
+    }
+    .sell-form button:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 25px #a78bfa;
+    }
+
+    /* footer */
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 40px 0;
+      border-top: 1px solid #1e293b;
+      margin-top: 60px;
+      flex-wrap: wrap;
+      gap: 20px;
+      color: #64748b;
+    }
+    .footer .socials i {
+      font-size: 1.5rem;
+      margin-left: 20px;
+      color: #475569;
+      transition: 0.2s;
+    }
+    .footer .socials i:hover {
+      color: #38bdf8;
+      transform: translateY(-3px);
+    }
+
+    /* misc */
+    .badge {
+      background: #2dd4bf20;
+      border-radius: 40px;
+      padding: 4px 10px;
+      font-size: 0.8rem;
+      color: #2dd4bf;
+      border: 1px solid #2dd4bf40;
+    }
+    .text-glow {
+      text-shadow: 0 0 8px #38bdf8;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- header -->
+  <nav class="navbar">
+    <div class="logo">
+      <i class="fas fa-microchip"></i> Nuer Tech
+    </div>
+    <div class="nav-links">
+      <a href="nuer.tech.html" class="acive">Home</a>
+      <a href="shop.html">Shops</a>
+      <a href="sell.html">Sell</a>
+      <a href="contact.html">Contact</a>
+      <a href="insight.html">Insights</a>
+      <div class="cart-icon" id="cart-icon">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="cart-count">0</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <span class="hero-badge"><i class="fas fa-bolt"></i> next‑gen marketplace</span>
+      <h1>Buy · Sell · upgrade<br>with zero stress</h1>
+      <p>From gaming beasts to ultrabooks — list your rig or grab a deal. All systems tested, all prices fair.</p>
+      <div class="hero-buttons">
+        <a href="#" class="btn btn-primary"><i class="fas fa-arrow-right-to-bracket"></i> Explore shop</a>
+        <a href="#sell" class="btn btn-outline"><i class="fas fa-circle-dollar-to-slot"></i> Sell yours</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="./assets/44.png" alt="">
+    </div>
+  </section>
+
+  <!-- filter chips -->
+  <div class="filter-bar">
+    <span class="filter-title"><i class="fas fa-sliders"></i> Category:</span>
+    <span class="filter-chip active" data-filter="all">All</span>
+    <span class="filter-chip" data-filter="laptop">Laptops</span>
+    <span class="filter-chip" data-filter="desktop">Desktops</span>
+    <span class="filter-chip" data-filter="all">TV</span>
+    <span class="filter-chip" data-filter="laptop">Smart Phone</span>
+    <span class="filter-chip" data-filter="desktop">Electronics</span>
+    <span class="filter-chip" data-filter="all">Books</span>
+    <span class="filter-chip" data-filter="laptop">Smart Watches</span>
+    <span class="filter-chip" data-filter="desktop">Cloths</span>
+  </div>
+
+  <!-- product grid (you can replace images with your own) -->
+  <div class="product-grid" id="product-grid">
+    <!-- card 1 - gaming laptop (laptop) -->
+    <div class="product-card" data-category="laptop">
+      <div class="card-img">
+        <img src="./assets/hp1.jpg" alt="Gaming Laptop" loading="lazy">
+      </div>
+      <div class="card-content">
+        <div class="card-title">
+          <span>Gaming Laptop</span>
+          <span>ETB 98,700</span>
+        </div>
+        <div class="card-desc">
+          <span><i class="fas fa-microchip"></i> RTX 4060</span>
+          <span><i class="fas fa-memory"></i>512GB - 16GB</span>
+          <span class="badge">like new</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-card add-to-cart"><i class="fas fa-cart-plus"></i> cart</button>
+          <button class="btn-card"><i class="fas fa-bolt"></i> buy</button>
+        </div>
+      </div>
+    </div>
+    <!-- card 2 - ultrabook (laptop) -->
+    <div class="product-card" data-category="laptop">
+      <div class="card-img">
+        <img src="./assets/2.jpg" alt="Ultrabook">
+      </div>
+      <div class="card-content">
+        <div class="card-title">
+          <span>Ultrabook X13</span>
+          <span>ETB 89,779</span>
+        </div>
+        <div class="card-desc">
+          <span><i class="fas fa-microchip"></i> i7-1255U</span>
+          <span><i class="fas fa-memory"></i> 16GB</span>
+          <span class="badge">new</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-card add-to-cart"><i class="fas fa-cart-plus"></i> cart</button>
+          <button class="btn-card"><i class="fas fa-bolt"></i> buy</button>
+        </div>
+      </div>
+    </div>
+    <!-- card 3 - desktop pc (desktop) -->
+    <div class="product-card" data-category="desktop">
+      <div class="card-img">
+        <img src="./assets/3.jpg" alt="Desktop PC">
+      </div>
+      <div class="card-content">
+        <div class="card-title">
+          <span>Desktop Ryzen</span>
+          <span>ETB 31,599</span>
+        </div>
+        <div class="card-desc">
+          <span><i class="fas fa-microchip"></i> RX 7700 XT</span>
+          <span><i class="fas fa-memory"></i> 32GB</span>
+          <span class="badge">refurb</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-card add-to-cart"><i class="fas fa-cart-plus"></i> cart</button>
+          <button class="btn-card"><i class="fas fa-bolt"></i> buy</button>
+        </div>
+      </div>
+    </div>
+    <!-- card 4 - all-in-one (desktop) -->
+    <div class="product-card" data-category="desktop">
+      <div class="card-img">
+        <img src="./assets/4.jpg" alt="All-in-One">
+      </div>
+      <div class="card-content">
+        <div class="card-title">
+          <span>All-in-One 27"</span>
+          <span>ETB 81,199</span>
+        </div>
+        <div class="card-desc">
+          <span><i class="fas fa-microchip"></i> i5</span>
+          <span><i class="fas fa-memory"></i> 8GB</span>
+          <span class="badge">new</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-card add-to-cart"><i class="fas fa-cart-plus"></i> cart</button>
+          <button class="btn-card"><i class="fas fa-bolt"></i> buy</button>
+        </div>
+      </div>
+    </div>
+    <!-- card 5 - macbook pro (laptop) -->
+    <div class="product-card" data-category="laptop">
+      <div class="card-img">
+        <img src="./assets/5.jpg" alt="MacBook Pro">
+      </div>
+      <div class="card-content">
+        <div class="card-title">
+          <span>MacBook Pro</span>
+          <span>ETB 332,199</span>
+        </div>
+        <div class="card-desc">
+          <span><i class="fas fa-microchip"></i> M3 Pro</span>
+          <span><i class="fas fa-memory"></i> 18GB</span>
+          <span class="badge">new</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-card add-to-cart"><i class="fas fa-cart-plus"></i> cart</button>
+          <button class="btn-card"><i class="fas fa-bolt"></i> buy</button>
+        </div>
+      </div>
+    </div>
+    <!-- card 6 - workstation (desktop) -->
+    <div class="product-card" data-category="desktop">
+      <div class="card-img">
+        <img src="./assets/thinkpad.jpg" alt="HP Elitebook 840">
+      </div>
+      <div class="card-content">
+        <div class="card-title">
+          <span>HP Elitebook 840 G5</span>
+          <span>ETB 62,799</span>
+        </div>
+        <div class="card-desc">
+          <span><i class="fas fa-microchip"></i> Xeon W7</span>
+          <span><i class="fas fa-memory"></i> 64GB</span>
+          <span class="badge">like new</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-card add-to-cart"><i class="fas fa-cart-plus"></i> cart</button>
+          <button class="btn-card"><i class="fas fa-bolt"></i> buy</button>
+        </div>
+      </div>
+    </div>
+    <div class="product-card" data-category="desktop">
+      <div class="card-img">
+        <img src="./assets/macbook1.jpg" alt="HP Elitebook 840">
+      </div>
+      <div class="card-content">
+        <div class="card-title">
+          <span>HP Elitebook 840 G5</span>
+          <span>ETB 52,799</span>
+        </div>
+        <div class="card-desc">
+          <span><i class="fas fa-microchip"></i> Xeon W7</span>
+          <span><i class="fas fa-memory"></i> 64GB</span>
+          <span class="badge">like new</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-card add-to-cart"><i class="fas fa-cart-plus"></i> cart</button>
+          <button class="btn-card"><i class="fas fa-bolt"></i> buy</button>
+        </div>
+      </div>
+    </div>
+    <div class="product-card" data-category="desktop">
+      <div class="card-img">
+        <img src="./assets/s26.png" alt="HP Elitebook 840">
+      </div>
+      <div class="card-content">
+        <div class="card-title">
+          <span>Samsung ultra s26</span>
+          <span>ETB 62,799</span>
+        </div>
+        <div class="card-desc">
+          <span><i class="fas fa-microchip"></i> Xeon W7</span>
+          <span><i class="fas fa-memory"></i> 64GB</span>
+          <span class="badge">like new</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-card add-to-cart"><i class="fas fa-cart-plus"></i> cart</button>
+          <button class="btn-card"><i class="fas fa-bolt"></i> buy</button>
+        </div>
+      </div>
+    </div>
+    <div class="product-card" data-category="desktop">
+      <div class="card-img">
+        <img src="./assets/desktop2.jpg" alt="HP Elitebook 840">
+      </div>
+      <div class="card-content">
+        <div class="card-title">
+          <span>HP Elitebook 840 G5</span>
+          <span>ETB 62,799</span>
+        </div>
+        <div class="card-desc">
+          <span><i class="fas fa-microchip"></i> Xeon W7</span>
+          <span><i class="fas fa-memory"></i> 64GB</span>
+          <span class="badge">like new</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-card add-to-cart"><i class="fas fa-cart-plus"></i> cart</button>
+          <button class="btn-card"><i class="fas fa-bolt"></i> buy</button>
+        </div>
+      </div>
+    </div>
+    <div class="product-card" data-category="desktop">
+      <div class="card-img">
+        <img src="./assets/macbook3.jpg" alt="HP Elitebook 840">
+      </div>
+      <div class="card-content">
+        <div class="card-title">
+          <span>HP Elitebook 840 G5</span>
+          <span>ETB 42,899</span>
+        </div>
+        <div class="card-desc">
+          <span><i class="fas fa-microchip"></i> Xeon W7</span>
+          <span><i class="fas fa-memory"></i> 64GB</span>
+          <span class="badge">like new</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-card add-to-cart"><i class="fas fa-cart-plus"></i> cart</button>
+          <button class="btn-card"><i class="fas fa-bolt"></i> buy</button>
+        </div>
+      </div>
+    </div>
+    <div class="product-card" data-category="desktop">
+      <div class="card-img">
+        <img src="./assets/7.jpg" alt="HP Elitebook 840">
+      </div>
+      <div class="card-content">
+        <div class="card-title">
+          <span>HP Elitebook 840 G5</span>
+          <span>ETB 66,799</span>
+        </div>
+        <div class="card-desc">
+          <span><i class="fas fa-microchip"></i> Xeon W7</span>
+          <span><i class="fas fa-memory"></i> 64GB</span>
+          <span class="badge">like new</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-card add-to-cart"><i class="fas fa-cart-plus"></i> cart</button>
+          <button class="btn-card"><i class="fas fa-bolt"></i> buy</button>
+        </div>
+      </div>
+    </div>
+    <div class="product-card" data-category="desktop">
+      <div class="card-img">
+        <img src="./assets/7.jpg" alt="HP Elitebook 840">
+      </div>
+      <div class="card-content">
+        <div class="card-title">
+          <span>HP Elitebook 840 G5</span>
+          <span>ETB 55,799</span>
+        </div>
+        <div class="card-desc">
+          <span><i class="fas fa-microchip"></i> Xeon W7</span>
+          <span><i class="fas fa-memory"></i> 64GB</span>
+          <span class="badge">like new</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-card add-to-cart"><i class="fas fa-cart-plus"></i> cart</button>
+          <button class="btn-card"><i class="fas fa-bolt"></i> buy</button>
+        </div>
+      </div>
+    </div>
+    <div class="product-card" data-category="desktop">
+      <div class="card-img">
+        <img src="./assets/7.jpg" alt="HP Elitebook 840">
+      </div>
+      <div class="card-content">
+        <div class="card-title">
+          <span>HP Elitebook 840 G5</span>
+          <span>ETB 64,799</span>
+        </div>
+        <div class="card-desc">
+          <span><i class="fas fa-microchip"></i> Xeon W7</span>
+          <span><i class="fas fa-memory"></i> 64GB</span>
+          <span class="badge">like new</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-card add-to-cart"><i class="fas fa-cart-plus"></i> cart</button>
+          <button class="btn-card"><i class="fas fa-bolt"></i> buy</button>
+        </div>
+      </div>
+    </div>
+    <div class="product-card" data-category="desktop">
+      <div class="card-img">
+        <img src="./assets/7.jpg" alt="HP Elitebook 840">
+      </div>
+      <div class="card-content">
+        <div class="card-title">
+          <span>HP Elitebook 840 G5</span>
+          <span>ETB 47,799</span>
+        </div>
+        <div class="card-desc">
+          <span><i class="fas fa-microchip"></i> Xeon W7</span>
+          <span><i class="fas fa-memory"></i> 64GB</span>
+          <span class="badge">like new</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-card add-to-cart"><i class="fas fa-cart-plus"></i> cart</button>
+          <button class="btn-card"><i class="fas fa-bolt"></i> buy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <!-- sell section (id for anchor) -->
+  <section class="sell-section" id="sell">
+    <div class="sell-info">
+      <h2><i class="fas fa-circle-dollar-to-slot"></i> Sell your machine</h2>
+      <p>Got a PC or laptop gathering dust? Turn it into cash. Describe your rig, get an offer instantly.</p>
+      <p><i class="fas fa-check-circle" style="color:#38bdf8;"></i> free shipping kit • secure payment</p>
+    </div>
+    <div class="sell-form" id="sellForm">
+      <div class="form-group">
+        <label><i class="fas fa-laptop"></i> Computer type</label>
+        <select id="compType">
+          <option>Gaming laptop</option>
+          <option>Ultrabook / MacBook</option>
+          <option>Desktop (tower)</option>
+          <option>All-in-One</option>
+          <option>Workstation</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label><i class="fas fa-clipboard-check"></i> Condition</label>
+        <select id="condition">
+          <option>New / unopened</option>
+          <option>Like new</option>
+          <option>Good (minor wear)</option>
+          <option>Fair (fully working)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label><i class="fas fa-tag"></i> Your price (USD)</label>
+        <input type="number" placeholder="e.g. 650" id="priceInput">
+      </div>
+      <button type="submit" id="submitSell">Request offer <i class="fas fa-paper-plane"></i></button>
+    </div>
+  </section>
+
+  <!-- footer -->
+  <footer class="footer">
+    <div>© 2026 Nuer Tech — All Right Reserved— Trade with trust</div>
+    <div class="socials">
+      <i class="fab fa-instagram"></i>
+      <i class="fab fa-twitter"></i>
+      <i class="fab fa-tiktok"></i>
+      <i class="fab fa-facebook"></i>
+    </div>
+  </footer>
+</div>
+
+<!-- JavaScript: cart, filter, sell animation -->
+<script>
+  (function() {
+    // ----- FILTER (by category) -----
+    const filterChips = document.querySelectorAll('.filter-chip');
+    const products = document.querySelectorAll('.product-card');
+    let activeFilter = 'all';
+
+    function filterProducts(category) {
+      products.forEach(card => {
+        const cardCat = card.getAttribute('data-category');
+        if (category === 'all' || cardCat === category) {
+          card.style.display = ''; // restore
+          // tiny re-animation (just for fun)
+          card.style.animation = 'none';
+          card.offsetHeight; // reflow
+          card.style.animation = 'cardFadeIn 0.3s ease';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    filterChips.forEach(chip => {
+      chip.addEventListener('click', function() {
+        filterChips.forEach(c => c.classList.remove('active'));
+        this.classList.add('active');
+        const filterValue = this.getAttribute('data-filter');
+        activeFilter = filterValue;
+        filterProducts(filterValue);
+      });
+    });
+
+    // ----- ADD TO CART (update badge) -----
+    const cartCountSpan = document.getElementById('cart-count');
+    let cartItems = 0;
+
+    function updateCartBadge() {
+      cartCountSpan.textContent = cartItems;
+      cartCountSpan.style.transform = 'scale(1.3)';
+      setTimeout(() => cartCountSpan.style.transform = 'scale(1)', 150);
+    }
+
+    // event delegation for add-to-cart buttons
+    document.querySelector('.product-grid').addEventListener('click', function(e) {
+      const addBtn = e.target.closest('.add-to-cart');
+      if (addBtn) {
+        cartItems++;
+        updateCartBadge();
+        // subtle animation on cart icon
+        const cartIcon = document.getElementById('cart-icon');
+        cartIcon.style.backgroundColor = '#2d3b4f';
+        setTimeout(() => cartIcon.style.backgroundColor = '', 150);
+      }
+    });
+
+    // ----- SELL FORM (submit simulation) -----
+    const sellForm = document.getElementById('sellForm');
+    const submitBtn = document.getElementById('submitSell');
+    submitBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const type = document.getElementById('compType').value;
+      const condition = document.getElementById('condition').value;
+      const price = document.getElementById('priceInput').value;
+      if (!price || price <= 0) {
+        alert('💰 Please enter a valid price');
+        return;
+      }
+      alert(`✨ Offer requested for ${type} (${condition}) at $${price}. We'll contact you soon!`);
+      // optionally reset
+      document.getElementById('priceInput').value = '';
+    });
+
+    // ----- extra smooth scroll for demo (no real anchor) -----
+    document.querySelectorAll('a[href="#sell"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('sell').scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+    document.querySelectorAll('a[href="#"]').forEach(link => {
+      link.addEventListener('click', (e) => e.preventDefault());
+    });
+
+    // tiny floating animation for hero icon (already in css)
+    // cart badge initial
+    cartCountSpan.textContent = '0';
+  })();
+</script>
+<!-- simple note: replace placeholder images with your own files (same dimensions work best) -->
+<!-- all placeholders from placehold.co – just swap src attributes -->
+</body>
+</html>

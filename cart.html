@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nuer Tech · buy & sell computers</title>
+  <!-- Poppins + Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Chart.js for beautiful charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #0b1120;
+      color: #e2e8f0;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 30% 30%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.08) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+      animation: softPulse 16s infinite alternate;
+    }
+
+    @keyframes softPulse {
+      0% { opacity: 0.4; }
+      100% { opacity: 0.9; }
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 30px;
+    }
+
+    /* header */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      flex-wrap: wrap;
+      gap: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #a78bfa, #38bdf8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+    }
+    .logo i {
+      font-size: 2rem;
+      color: #38bdf8;
+      margin-right: 6px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      font-weight: 500;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: 0.2s;
+      font-size: 1.1rem;
+      position: relative;
+    }
+    .nav-links a:hover {
+      color: white;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: linear-gradient(90deg, #a78bfa, #38bdf8);
+      transition: 0.25s;
+    }
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .cart-icon {
+      background: #1e293b;
+      padding: 10px 16px;
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #334155;
+      transition: 0.2s;
+      cursor: default;
+    }
+    .cart-icon i {
+      color: #38bdf8;
+      font-size: 1.2rem;
+    }
+    #cart-count {
+      background: #38bdf8;
+      color: #0b1120;
+      font-weight: 600;
+      padding: 2px 10px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+    }
+
+    /* hero */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      margin: 60px 0 80px;
+      gap: 40px;
+    }
+    .hero-content { flex: 1 1 350px; }
+    .hero-badge {
+      background: rgba(56, 189, 248, 0.15);
+      display: inline-block;
+      padding: 6px 18px;
+      border-radius: 40px;
+      border: 1px solid #38bdf8;
+      font-weight: 400;
+      margin-bottom: 24px;
+      backdrop-filter: blur(4px);
+      animation: glowPulse 3s infinite;
+    }
+    @keyframes glowPulse {
+      0% { box-shadow: 0 0 0px #38bdf8; }
+      50% { box-shadow: 0 0 12px #38bdf8; }
+      100% { box-shadow: 0 0 0px #38bdf8; }
+    }
+    .hero h1 {
+      font-size: clamp(2.4rem, 7vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      background: linear-gradient(to right, #f0f9ff, #bae6fd, #a5f3fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      color: #94a3b8;
+      max-width: 550px;
+      margin-bottom: 30px;
+    }
+    .hero-buttons { display: flex; gap: 20px; flex-wrap: wrap; }
+    .btn {
+      padding: 14px 38px;
+      border-radius: 50px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 1rem;
+      background: #1e293b;
+      color: white;
+      border: 1px solid #334155;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary {
+      background: linear-gradient(145deg, #2563eb, #38bdf8);
+      border: none;
+      box-shadow: 0 10px 20px -8px #2563eb80;
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 25px -8px #38bdf8;
+    }
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+    .hero-image {
+      flex: 1 1 350px;
+      display: flex;
+      justify-content: center;
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0px); }
+    }
+    .hero-image i {
+      font-size: 18rem;
+      color: #1e293b;
+      text-shadow: 0 20px 30px #00000060;
+      background: linear-gradient(145deg, #2563eb20, #a78bfa20);
+      border-radius: 60% 40% 30% 70% / 50% 40% 60% 50%;
+      padding: 0.2em;
+    }
+
+    /* filter bar */
+    .filter-bar {
+      margin: 40px 0 30px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 15px;
+    }
+    .filter-title { font-weight: 500; color: #94a3b8; margin-right: 8px; }
+    .filter-chip {
+      background: #1e293b;
+      padding: 8px 22px;
+      border-radius: 40px;
+      font-weight: 500;
+      border: 1px solid #334155;
+      cursor: pointer;
+      transition: 0.2s;
+      user-select: none;
+    }
+    .filter-chip.active {
+      background: #38bdf8;
+      border-color: #38bdf8;
+      color: #0b1120;
+      font-weight: 600;
+      box-shadow: 0 0 15px #38bdf8;
+    }
+    .filter-chip:hover { border-color: #38bdf8; transform: scale(1.02); }
+
+    /* product grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin: 40px 0 60px;
+    }
+    .product-card {
+      background: #1e293b;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid #334155;
+      backdrop-filter: blur(2px);
+      transition: all 0.25s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+      animation: cardFadeIn 0.5s ease backwards;
+      box-shadow: 0 20px 25px -12px #02061780;
+    }
+    .product-card:hover {
+      transform: translateY(-10px) scale(1.01);
+      border-color: #38bdf8;
+      box-shadow: 0 30px 35px -12px #38bdf880, 0 0 0 1px #38bdf8 inset;
+    }
+    @keyframes cardFadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .card-img {
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+      background: #0f172a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid #334155;
+    }
+    .card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: 0.3s;
+      display: block;
+    }
+    .product-card:hover .card-img img { transform: scale(1.06); }
+    .card-content { padding: 22px 20px 24px; }
+    .card-title {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .card-title span:last-child { color: #bae6fd; font-weight: 700; }
+    .card-desc {
+      color: #94a3b8;
+      font-size: 0.95rem;
+      margin: 12px 0 16px;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .card-desc i { color: #38bdf8; width: 20px; }
+    .card-actions { display: flex; gap: 12px; }
+    .btn-card {
+      flex: 1;
+      padding: 10px;
+      border-radius: 50px;
+      background: transparent;
+      border: 1px solid #334155;
+      color: white;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-card:hover {
+      background: #38bdf8;
+      border-color: #38bdf8;
+      color: #0b1120;
+    }
+
+    /* shops grid */
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin: 80px 0 30px;
+    }
+    .section-header h2 {
+      font-size: 2.4rem;
+      font-weight: 600;
+      background: linear-gradient(145deg, #bae6fd, #c4b5fd);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .shops-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+    .shop-card {
+      background: #1e293b;
+      border-radius: 32px;
+      padding: 28px 20px 24px;
+      border: 1px solid #334155;
+      backdrop-filter: blur(4px);
+      transition: all 0.25s ease;
+      animation: cardFadeIn 0.6s ease backwards;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 20px 25px -12px #02061780;
+      position: relative;
+      overflow: hidden;
+    }
+    .shop-card:hover {
+      transform: translateY(-8px);
+      border-color: #a78bfa;
+      box-shadow: 0 30px 35px -12px #a78bfa80;
+    }
+    .shop-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, #38bdf8, #a78bfa);
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+      transform-origin: left;
+    }
+    .shop-card:hover::before { transform: scaleX(1); }
+    .shop-avatar {
+      width: 100px;
+      height: 100px;
+      background: #0f172a;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid #38bdf8;
+      margin-bottom: 20px;
+      font-size: 3.5rem;
+      color: #94a3b8;
+      transition: 0.2s;
+      box-shadow: 0 10px 18px #00000050;
+    }
+    .shop-avatar i { font-size: 3.2rem; }
+    .shop-name { font-size: 1.6rem; font-weight: 600; margin-bottom: 4px; }
+    .shop-location { color: #94a3b8; font-size: 0.9rem; margin-bottom: 12px; }
+    .shop-location i { color: #38bdf8; margin-right: 4px; }
+    .shop-stats {
+      display: flex;
+      gap: 18px;
+      margin: 15px 0 20px;
+      color: #b9c9e0;
+    }
+    .shop-stats span { display: flex; align-items: center; gap: 5px; }
+    .shop-stats i { color: #a78bfa; }
+    .btn-shop {
+      background: transparent;
+      border: 1px solid #334155;
+      padding: 12px 28px;
+      border-radius: 60px;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+      width: 100%;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-shop:hover {
+      background: #a78bfa;
+      border-color: #a78bfa;
+      color: #0b1120;
+    }
+
+    /* sell section (simplified) */
+    .sell-hero {
+      margin: 80px 0 40px;
+      text-align: center;
+    }
+    .sell-hero h2 {
+      font-size: 3rem;
+      font-weight: 700;
+      background: linear-gradient(145deg, #fcd34d, #38bdf8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .sell-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      margin: 40px 0 80px;
+    }
+    .sell-steps {
+      flex: 1 1 280px;
+      background: #1e293b;
+      border-radius: 40px;
+      padding: 40px 30px;
+      border: 1px solid #334155;
+    }
+    .step-item {
+      display: flex;
+      gap: 18px;
+      margin-bottom: 40px;
+    }
+    .step-icon {
+      width: 54px;
+      height: 54px;
+      background: #0f172a;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: #38bdf8;
+      border: 1px solid #38bdf8;
+      flex-shrink: 0;
+    }
+    .step-text h4 { font-size: 1.4rem; font-weight: 600; }
+    .step-text p { color: #94a3b8; }
+    .sell-form-card {
+      flex: 2 1 500px;
+      background: #1e293b;
+      border-radius: 40px;
+      padding: 40px;
+      border: 1px solid #334155;
+    }
+    .form-row { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px; }
+    .form-group { flex: 1 1 200px; display: flex; flex-direction: column; gap: 8px; }
+    .form-group label { font-weight: 500; color: #cbd5e1; }
+    .form-group label i { color: #38bdf8; width: 24px; }
+    .form-group input, .form-group select, .form-group textarea {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 30px;
+      padding: 14px 20px;
+      color: white;
+      font-size: 1rem;
+      transition: 0.2s;
+      width: 100%;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 10px #38bdf8;
+    }
+    .image-upload-area {
+      background: #0f172a;
+      border: 2px dashed #334155;
+      border-radius: 30px;
+      padding: 30px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-bottom: 20px;
+    }
+    .image-upload-area:hover { border-color: #38bdf8; background: #1a2538; }
+    .image-upload-area i { font-size: 2.5rem; color: #38bdf8; margin-bottom: 10px; }
+    .image-upload-area p { color: #94a3b8; }
+    #imageFile { display: none; }
+    .price-tag {
+      display: flex;
+      align-items: center;
+      background: #0f172a;
+      border-radius: 30px;
+      border: 1px solid #334155;
+      padding: 0 20px;
+    }
+    .price-tag span { font-weight: 600; color: #38bdf8; font-size: 1.2rem; margin-right: 10px; }
+    .price-tag input { border: none; background: transparent; padding: 14px 0; flex: 1; }
+    .price-tag input:focus { outline: none; }
+    .btn-sell-submit {
+      background: linear-gradient(145deg, #f59e0b, #d97706);
+      border: none;
+      padding: 18px 30px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: 20px;
+      width: 100%;
+      box-shadow: 0 15px 25px -8px #f59e0b80;
+    }
+    .btn-sell-submit:hover { transform: scale(1.02); box-shadow: 0 20px 30px -6px #f59e0b; }
+
+    /* contact section */
+    .contact-section {
+      margin: 100px 0 60px;
+      scroll-margin-top: 30px;
+    }
+    .contact-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    .contact-header h2 {
+      font-size: 3rem;
+      font-weight: 700;
+      background: linear-gradient(145deg, #60a5fa, #c084fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .contact-header p {
+      color: #94a3b8;
+      max-width: 600px;
+      margin: 20px auto 0;
+      font-size: 1.2rem;
+    }
+    .contact-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+    .contact-info {
+      flex: 1 1 300px;
+      background: #1e293b;
+      border-radius: 40px;
+      padding: 40px 30px;
+      border: 1px solid #334155;
+      box-shadow: 0 20px 30px -10px black;
+    }
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 35px;
+    }
+    .info-icon {
+      width: 60px;
+      height: 60px;
+      background: #0f172a;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: #38bdf8;
+      border: 1px solid #38bdf8;
+      flex-shrink: 0;
+      transition: 0.2s;
+    }
+    .info-item:hover .info-icon {
+      background: #38bdf8;
+      color: #0b1120;
+      transform: scale(1.05);
+    }
+    .info-text h4 { font-size: 1.4rem; font-weight: 600; }
+    .info-text p, .info-text a {
+      color: #94a3b8;
+      text-decoration: none;
+      line-height: 1.5;
+    }
+    .info-text a:hover { color: #38bdf8; }
+    .social-links {
+      display: flex;
+      gap: 20px;
+      margin-top: 40px;
+      justify-content: center;
+    }
+    .social-links a {
+      width: 50px;
+      height: 50px;
+      background: #0f172a;
+      border-radius: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      color: #94a3b8;
+      border: 1px solid #334155;
+      transition: 0.2s;
+    }
+    .social-links a:hover {
+      background: #38bdf8;
+      color: #0b1120;
+      transform: translateY(-5px);
+      border-color: #38bdf8;
+    }
+    .contact-form {
+      flex: 2 1 500px;
+      background: #1e293b;
+      border-radius: 40px;
+      padding: 40px;
+      border: 1px solid #334155;
+      box-shadow: 0 20px 30px -10px black;
+    }
+    .form-group-full { width: 100%; margin-bottom: 20px; }
+    .form-row-contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .form-row-contact .form-group { flex: 1 1 200px; }
+    .contact-form textarea { min-height: 140px; resize: vertical; }
+    .btn-contact {
+      background: linear-gradient(145deg, #2563eb, #38bdf8);
+      border: none;
+      padding: 16px 40px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 20px -8px #2563eb80;
+    }
+    .btn-contact:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 25px -8px #38bdf8;
+    }
+    .form-message {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 30px;
+      background: #0f172a;
+      color: #94a3b8;
+      text-align: center;
+      border: 1px solid #334155;
+      display: none;
+    }
+    .form-message.show { display: block; animation: glowPulse 2s; }
+
+    /* ========== NEW CHART SECTION ========== */
+    .chart-section {
+      margin: 100px 0 80px;
+      scroll-margin-top: 30px;
+    }
+    .chart-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .chart-header h2 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      background: linear-gradient(145deg, #f87171, #60a5fa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .chart-header p {
+      color: #94a3b8;
+      max-width: 700px;
+      margin: 15px auto 0;
+      font-size: 1.1rem;
+    }
+    .chart-card {
+      background: #1e293b;
+      border-radius: 40px;
+      padding: 40px 30px;
+      border: 1px solid #334155;
+      box-shadow: 0 25px 35px -12px #020617;
+      backdrop-filter: blur(4px);
+    }
+    .chart-container {
+      position: relative;
+      width: 100%;
+      height: 350px;
+      margin-top: 20px;
+    }
+    canvas#marketChart {
+      width: 100% !important;
+      height: 100% !important;
+    }
+    .chart-stats {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      margin-top: 30px;
+      gap: 20px;
+    }
+    .stat-badge {
+      background: #0f172a;
+      padding: 15px 25px;
+      border-radius: 50px;
+      border: 1px solid #334155;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .stat-badge i {
+      font-size: 2rem;
+      color: #38bdf8;
+    }
+    .stat-badge span {
+      font-weight: 600;
+      font-size: 1.4rem;
+      color: #e2e8f0;
+    }
+    .stat-badge small {
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
+
+    /* footer */
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 40px 0;
+      border-top: 1px solid #1e293b;
+      margin-top: 60px;
+      flex-wrap: wrap;
+      gap: 20px;
+      color: #64748b;
+    }
+    .footer .socials i {
+      font-size: 1.5rem;
+      margin-left: 20px;
+      color: #475569;
+      transition: 0.2s;
+    }
+    .footer .socials i:hover {
+      color: #38bdf8;
+      transform: translateY(-3px);
+    }
+
+    .badge {
+      background: #2dd4bf20;
+      border-radius: 40px;
+      padding: 4px 10px;
+      font-size: 0.8rem;
+      color: #2dd4bf;
+      border: 1px solid #2dd4bf40;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- header -->
+  <nav class="navbar">
+    <div class="logo">
+      <i class="fas fa-microchip"></i> Nuer Tech
+    </div>
+    <div class="nav-links">
+      <a href="nuer.tech.html">Home</a>
+      <a href="shop.html">Shops</a>
+      <a href="sell.html">Sell</a>
+      <a href="contact.html">Contact</a>
+      <a href="insight.html">Insights</a>   
+      <div class="cart-icon" id="cart-icon">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="cart-count">0</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <span class="hero-badge"><i class="fas fa-bolt"></i> next‑gen marketplace</span>
+      <h1>Buy · Sell · upgrade<br>with zero stress</h1>
+      <p>From gaming beasts to ultrabooks — list your rig or grab a deal. All systems tested, all prices fair.</p>
+      <div class="hero-buttons">
+        <a href="#" class="btn btn-primary"><i class="fas fa-arrow-right-to-bracket"></i> Explore shop</a>
+        <a href="#sell" class="btn btn-outline"><i class="fas fa-circle-dollar-to-slot"></i> Sell yours</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="./assets/44.png" alt="">
+    </div>
+  </section>
+
+  <!-- product filter & grid (id="products") -->
+  <div class="filter-bar" id="products">
+    <span class="filter-title"><i class="fas fa-sliders"></i> Category:</span>
+    <span class="filter-chip active" data-filter="all">All</span>
+    <span class="filter-chip" data-filter="laptop">Laptops</span>
+    <span class="filter-chip" data-filter="desktop">Desktops</span>
+    <span class="filter-chip" data-filter="all">TV</span>
+    <span class="filter-chip" data-filter="laptop">Smart Phone</span>
+    <span class="filter-chip" data-filter="desktop">Electronics</span>
+    <span class="filter-chip" data-filter="all">Books</span>
+    <span class="filter-chip" data-filter="laptop">Smart Watches</span>
+    <span class="filter-chip" data-filter="desktop">Cloths</span>
+  </div>
+
+  <div class="product-grid" id="product-grid">
+    <!-- 6 product cards (same as before) -->
+    <div class="product-card" data-category="laptop">
+      <div class="card-img"><img src="./assets/macbook.jpg" alt="Gaming Laptop"></div>
+      <div class="card-content">
+        <div class="card-title"><span>Macbook Pro</span><span>ETB 170,500</span></div>
+        <div class="card-desc"><span><i class="fas fa-microchip"></i> RTX 4060</span><span><i class="fas fa-memory"></i> 16GB</span><span class="badge">like new</span></div>
+        <div class="card-actions"><button class="btn-card add-to-cart"><i class="fas fa-cart-plus"></i> cart</button><button class="btn-card"><i class="fas fa-bolt"></i> buy</button></div>
+      </div>
+    </div>
+    <div class="product-card" data-category="laptop">
+      <div class="card-img"><img src="./assets/2.jpg" alt="Ultrabook"></div>
+      <div class="card-content">
+        <div class="card-title"><span>HP elitebook 840 G5</span><span>ETB 55,700</span></div>
+        <div class="card-desc"><span><i class="fas fa-microchip"></i> i7-1255U</span><span><i class="fas fa-memory"></i> 16GB</span><span class="badge">new</span></div>
+        <div class="card-actions"><button class="btn-card add-to-cart"><i class="fas fa-cart-plus"></i> cart</button><button class="btn-card"><i class="fas fa-bolt"></i> buy</button></div>
+      </div>
+    </div>
+    <div class="product-card" data-category="desktop">
+      <div class="card-img"><img src="./assets/3.jpg" alt="Desktop PC"></div>
+      <div class="card-content">
+        <div class="card-title"><span>Desktop Ryzen</span><span>$1,599</span></div>
+        <div class="card-desc"><span><i class="fas fa-microchip"></i> RX 7700 XT</span><span><i class="fas fa-memory"></i> 32GB</span><span class="badge">refurb</span></div>
+        <div class="card-actions"><button class="btn-card add-to-cart"><i class="fas fa-cart-plus"></i> cart</button><button class="btn-card"><i class="fas fa-bolt"></i> buy</button></div>
+      </div>
+    </div>
+    <div class="product-card" data-category="desktop">
+      <div class="card-img"><img src="./assets/4.jpg" alt="All-in-One"></div>
+      <div class="card-content">
+        <div class="card-title"><span>All-in-One 27"</span><span>$1,199</span></div>
+        <div class="card-desc"><span><i class="fas fa-microchip"></i> i5</span><span><i class="fas fa-memory"></i> 8GB</span><span class="badge">new</span></div>
+        <div class="card-actions"><button class="btn-card add-to-cart"><i class="fas fa-cart-plus"></i> cart</button><button class="btn-card"><i class="fas fa-bolt"></i> buy</button></div>
+      </div>
+    </div>
+    <div class="product-card" data-category="laptop">
+      <div class="card-img"><img src="./assets/5.jpg" alt="MacBook Pro"></div>
+      <div class="card-content">
+        <div class="card-title"><span>MacBook Pro</span><span>$2,199</span></div>
+        <div class="card-desc"><span><i class="fas fa-microchip"></i> M3 Pro</span><span><i class="fas fa-memory"></i> 18GB</span><span class="badge">new</span></div>
+        <div class="card-actions"><button class="btn-card add-to-cart"><i class="fas fa-cart-plus"></i> cart</button><button class="btn-card"><i class="fas fa-bolt"></i> buy</button></div>
+      </div>
+    </div>
+    <div class="product-card" data-category="desktop">
+      <div class="card-img"><img src="./asset/7.jpg" alt="Workstation"></div>
+      <div class="card-content">
+        <div class="card-title"><span>Workstation</span><span>$2,799</span></div>
+        <div class="card-desc"><span><i class="fas fa-microchip"></i> Xeon W7</span><span><i class="fas fa-memory"></i> 64GB</span><span class="badge">like new</span></div>
+        <div class="card-actions"><button class="btn-card add-to-cart"><i class="fas fa-cart-plus"></i> cart</button><button class="btn-card"><i class="fas fa-bolt"></i> buy</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- shops section -->
+  <div class="section-header" id="shops">
+    <h2><i class="fas fa-store-alt"></i> Trusted tech shops</h2>
+    <a href="#">view all <i class="fas fa-arrow-right"></i></a>
+  </div>
+  <div class="shops-grid">
+    <div class="shop-card"><div class="shop-avatar"><i class="fas fa-laptop"></i></div><div class="shop-name">NeoChip</div><div class="shop-location"><i class="fas fa-map-pin"></i> Berlin, EU</div><div class="shop-stats"><span><i class="fas fa-server"></i> 24 items</span><span><i class="fas fa-star" style="color: #fbbf24;"></i> 4.9</span></div><button class="btn-shop visit-shop"><i class="fas fa-bag-shopping"></i> visit shop</button></div>
+    <div class="shop-card"><div class="shop-avatar"><i class="fas fa-computer"></i></div><div class="shop-name">Quantum PC</div><div class="shop-location"><i class="fas fa-map-pin"></i> London, UK</div><div class="shop-stats"><span><i class="fas fa-server"></i> 37 items</span><span><i class="fas fa-star" style="color: #fbbf24;"></i> 4.8</span></div><button class="btn-shop visit-shop"><i class="fas fa-bag-shopping"></i> visit shop</button></div>
+    <div class="shop-card"><div class="shop-avatar"><i class="fas fa-microchip"></i></div><div class="shop-name">Silicon Alley</div><div class="shop-location"><i class="fas fa-map-pin"></i> NYC, USA</div><div class="shop-stats"><span><i class="fas fa-server"></i> 52 items</span><span><i class="fas fa-star" style="color: #fbbf24;"></i> 4.7</span></div><button class="btn-shop visit-shop"><i class="fas fa-bag-shopping"></i> visit shop</button></div>
+    <div class="shop-card"><div class="shop-avatar"><i class="fas fa-display"></i></div><div class="shop-name">RetroFrames</div><div class="shop-location"><i class="fas fa-map-pin"></i> Tokyo, JP</div><div class="shop-stats"><span><i class="fas fa-server"></i> 18 items</span><span><i class="fas fa-star" style="color: #fbbf24;"></i> 4.9</span></div><button class="btn-shop visit-shop"><i class="fas fa-bag-shopping"></i> visit shop</button></div>
+  </div>
+
+  <!-- sell section -->
+  <div class="sell-hero" id="sell">
+    <h2><i class="fas fa-circle-dollar-to-slot"></i> Sell your computer — in three steps</h2>
+    <p>Describe your rig, add photos, set a price. Your listing goes live immediately (demo preview below).</p>
+  </div>
+  <div class="sell-container">
+    <div class="sell-steps">
+      <div class="step-item"><div class="step-icon">1</div><div class="step-text"><h4>Describe</h4><p>Tell us the brand, model, specs and condition.</p></div></div>
+      <div class="step-item"><div class="step-icon">2</div><div class="step-text"><h4>Upload images</h4><p>Show the actual computer (use any image URL or placeholder).</p></div></div>
+      <div class="step-item"><div class="step-icon">3</div><div class="step-text"><h4>Set price & publish</h4><p>Get offers or sell instantly. Your item will appear below.</p></div></div>
+    </div>
+    <div class="sell-form-card">
+      <div class="form-row">
+        <div class="form-group"><label><i class="fas fa-tag"></i> Brand</label><input type="text" id="brand" value="Gaming"></div>
+        <div class="form-group"><label><i class="fas fa-microchip"></i> Model</label><input type="text" id="model" value="Strix G15"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label><i class="fas fa-tachometer-alt"></i> CPU / GPU</label><input type="text" id="cpu" value="Ryzen 9 + RTX 4070"></div>
+        <div class="form-group"><label><i class="fas fa-memory"></i> RAM</label><input type="text" id="ram" value="32GB"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label><i class="fas fa-hard-drive"></i> Storage</label><input type="text" id="storage" value="1TB NVMe"></div>
+        <div class="form-group"><label><i class="fas fa-clipboard-check"></i> Condition</label><select id="condition"><option>New</option><option selected>Like new</option><option>Good</option><option>Fair</option></select></div>
+      </div>
+      <div class="form-group"><label><i class="fas fa-align-left"></i> Description</label><textarea id="description">Perfect for gaming & work</textarea></div>
+      <div class="image-upload-area" id="imageUploadBox"><i class="fas fa-cloud-upload-alt"></i><p>Click to upload images (demo)</p><input type="file" id="imageFile" accept="image/*"></div>
+      <div class="form-group"><label><i class="fas fa-dollar-sign"></i> Your price (USD)</label><div class="price-tag"><span>$</span><input type="number" id="price" value="1299"></div></div>
+      <button class="btn-sell-submit" id="publishListingBtn"><i class="fas fa-cloud-upload-alt"></i> publish listing (demo)</button>
+    </div>
+  </div>
+
+  <!-- contact section -->
+  <section class="contact-section" id="contact">
+    <div class="contact-header">
+      <h2><i class="fas fa-headset"></i> Get in touch</h2>
+      <p>Have questions? Want to partner? We’d love to hear from you.</p>
+    </div>
+    <div class="contact-container">
+      <div class="contact-info">
+        <div class="info-item"><div class="info-icon"><i class="fas fa-map-pin"></i></div><div class="info-text"><h4>Visit us</h4><p>123 Tech Avenue<br>San Francisco, CA 94103</p></div></div>
+        <div class="info-item"><div class="info-icon"><i class="fas fa-phone-alt"></i></div><div class="info-text"><h4>Call us</h4><p><a href="tel:+15551234567">+1 (555) 123-4567</a><br>Mon-Fri 9am–6pm PT</p></div></div>
+        <div class="info-item"><div class="info-icon"><i class="fas fa-envelope"></i></div><div class="info-text"><h4>Email</h4><p><a href="mailto:support@nuertech.com">support@nuertech.com</a><br>We reply within 24h</p></div></div>
+        <div class="social-links"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-tiktok"></i></a><a href="#"><i class="fab fa-facebook"></i></a></div>
+      </div>
+      <div class="contact-form">
+        <div class="form-row-contact"><div class="form-group"><label><i class="fas fa-user"></i> Your name</label><input type="text" id="contactName"></div><div class="form-group"><label><i class="fas fa-envelope"></i> Email</label><input type="email" id="contactEmail"></div></div>
+        <div class="form-group-full"><label><i class="fas fa-tag"></i> Subject</label><input type="text" id="contactSubject"></div>
+        <div class="form-group-full"><label><i class="fas fa-comment"></i> Message</label><textarea id="contactMessage"></textarea></div>
+        <button class="btn-contact" id="contactSendBtn"><i class="fas fa-paper-plane"></i> Send message</button>
+        <div class="form-message" id="contactFormMessage">Thanks for reaching out! We'll get back soon.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== NEW CHART SECTION ========== -->
+  <section class="chart-section" id="chart">
+    <div class="chart-header">
+      <h2><i class="fas fa-chart-line"></i> Market insights</h2>
+      <p>Real‑time trends from the Nuer Tech marketplace — average prices & listing volume by category.</p>
+    </div>
+    <div class="chart-card">
+      <div class="chart-container">
+        <canvas id="marketChart"></canvas>
+      </div>
+      <div class="chart-stats">
+        <div class="stat-badge"><i class="fas fa-laptop"></i><span>24 <small>laptops</small></span></div>
+        <div class="stat-badge"><i class="fas fa-desktop"></i><span>18 <small>desktops</small></span></div>
+        <div class="stat-badge"><i class="fas fa-dollar-sign"></i><span>$1,724 <small>avg. price</small></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- footer -->
+  <footer class="footer">
+    <div>© 2026 Nuer Tech — All Right Reserved — Trade with trust</div>
+    <div class="socials">
+      <i class="fab fa-instagram"></i>
+      <i class="fab fa-twitter"></i>
+      <i class="fab fa-tiktok"></i>
+      <i class="fab fa-facebook"></i>
+    </div>
+  </footer>
+</div>
+
+<!-- JavaScript -->
+<script>
+  (function() {
+    // ----- FILTER -----
+    const filterChips = document.querySelectorAll('.filter-chip');
+    const products = document.querySelectorAll('.product-card');
+    filterChips.forEach(chip => {
+      chip.addEventListener('click', function() {
+        filterChips.forEach(c => c.classList.remove('active'));
+        this.classList.add('active');
+        const filterValue = this.getAttribute('data-filter');
+        products.forEach(card => {
+          const cardCat = card.getAttribute('data-category');
+          card.style.display = (filterValue === 'all' || cardCat === filterValue) ? '' : 'none';
+        });
+      });
+    });
+
+    // ----- ADD TO CART -----
+    const cartCountSpan = document.getElementById('cart-count');
+    let cartItems = 0;
+    document.querySelector('.product-grid').addEventListener('click', function(e) {
+      if (e.target.closest('.add-to-cart')) {
+        cartItems++;
+        cartCountSpan.textContent = cartItems;
+        cartCountSpan.style.transform = 'scale(1.3)';
+        setTimeout(() => cartCountSpan.style.transform = 'scale(1)', 150);
+        document.getElementById('cart-icon').style.backgroundColor = '#2d3b4f';
+        setTimeout(() => document.getElementById('cart-icon').style.backgroundColor = '', 150);
+      }
+    });
+
+    // ----- SHOPS "VISIT" -----
+    document.querySelectorAll('.visit-shop').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        alert(`🛍️ Visiting ${this.closest('.shop-card').querySelector('.shop-name').innerText} (demo)`);
+      });
+    });
+
+    // ----- SELL: PUBLISH NEW CARD -----
+    const publishBtn = document.getElementById('publishListingBtn');
+    const productGrid = document.getElementById('product-grid');
+    publishBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const brand = document.getElementById('brand').value.trim() || 'Computer';
+      const model = document.getElementById('model').value.trim() || '';
+      const cpu = document.getElementById('cpu').value.trim() || 'CPU';
+      const ram = document.getElementById('ram').value.trim() || 'RAM';
+      const condition = document.getElementById('condition').value;
+      const price = document.getElementById('price').value;
+      if (!price || price <= 0) { alert('Enter a valid price'); return; }
+      const title = (brand + ' ' + model).trim() || 'Custom PC';
+      let category = 'desktop';
+      if (title.toLowerCase().includes('laptop') || title.toLowerCase().includes('book') || title.toLowerCase().includes('ultra')) category = 'laptop';
+      const newCard = document.createElement('div');
+      newCard.className = 'product-card';
+      newCard.setAttribute('data-category', category);
+      newCard.innerHTML = `
+        <div class="card-img"><img src="https://placehold.co/600x400/3a86ff/white?text=${encodeURIComponent(title)}" alt="${title}"></div>
+        <div class="card-content">
+          <div class="card-title"><span>${title}</span><span>$${price}</span></div>
+          <div class="card-desc"><span><i class="fas fa-microchip"></i> ${cpu}</span><span><i class="fas fa-memory"></i> ${ram}</span><span class="badge">${condition.toLowerCase()}</span></div>
+          <div class="card-actions"><button class="btn-card add-to-cart"><i class="fas fa-cart-plus"></i> cart</button><button class="btn-card"><i class="fas fa-bolt"></i> buy</button></div>
+        </div>`;
+      productGrid.prepend(newCard);
+      alert('✅ Your computer has been listed!');
+    });
+
+    // ----- IMAGE UPLOAD SIMULATION -----
+    document.getElementById('imageUploadBox').addEventListener('click', () => document.getElementById('imageFile').click());
+    document.getElementById('imageFile').addEventListener('change', function(e) {
+      if (this.files.length) this.previousElementSibling.innerHTML = `<i class="fas fa-check-circle"></i><p>Selected: ${this.files[0].name}</p>`;
+    });
+
+    // ----- CONTACT FORM SIMULATION -----
+    const contactBtn = document.getElementById('contactSendBtn');
+    const contactMsg = document.getElementById('contactFormMessage');
+    contactBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('contactName').value.trim();
+      const email = document.getElementById('contactEmail').value.trim();
+      const subject = document.getElementById('contactSubject').value.trim();
+      const message = document.getElementById('contactMessage').value.trim();
+      if (!name || !email || !subject || !message) {
+        alert('Please fill in all fields');
+        return;
+      }
+      contactMsg.classList.add('show');
+      setTimeout(() => contactMsg.classList.remove('show'), 4000);
+      document.getElementById('contactName').value = '';
+      document.getElementById('contactEmail').value = '';
+      document.getElementById('contactSubject').value = '';
+      document.getElementById('contactMessage').value = '';
+    });
+
+    // ----- SMOOTH SCROLL FOR ANCHORS -----
+    ['shops', 'products', 'sell', 'contact', 'chart'].forEach(id => {
+      document.querySelectorAll(`a[href="#${id}"]`).forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+    });
+    document.querySelectorAll('a[href="#"]').forEach(link => link.addEventListener('click', (e) => e.preventDefault()));
+
+    // ----- INITIALIZE CHART.JS -----
+    const ctx = document.getElementById('marketChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Gaming Laptops', 'Ultrabooks', 'MacBooks', 'Desktop PCs', 'Workstations', 'All-in-Ones'],
+        datasets: [{
+          label: 'Average Price (USD)',
+          data: [1299, 899, 2199, 1599, 2799, 1199],
+          backgroundColor: [
+            'rgba(56, 189, 248, 0.7)',
+            'rgba(168, 85, 247, 0.7)',
+            'rgba(45, 212, 191, 0.7)',
+            'rgba(251, 146, 60, 0.7)',
+            'rgba(248, 113, 113, 0.7)',
+            'rgba(251, 191, 36, 0.7)'
+          ],
+          borderColor: [
+            '#38bdf8',
+            '#a78bfa',
+            '#2dd4bf',
+            '#fb923c',
+            '#f87171',
+            '#fbbf24'
+          ],
+          borderWidth: 2,
+          borderRadius: 8,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { backgroundColor: '#1e293b', titleColor: '#e2e8f0', bodyColor: '#94a3b8' }
+        },
+        scales: {
+          y: {
+            grid: { color: '#334155' },
+            ticks: { color: '#94a3b8', callback: (val) => '$' + val }
+          },
+          x: {
+            grid: { display: false },
+            ticks: { color: '#cbd5e1', maxRotation: 15, font: { size: 12 } }
+          }
+        },
+        layout: { padding: { top: 20, bottom: 20 } }
+      }
+    });
+
+    // initial cart count
+    cartCountSpan.textContent = '0';
+  })();
+</script>
+</body>
+</html>
